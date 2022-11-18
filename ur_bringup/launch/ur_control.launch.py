@@ -310,10 +310,16 @@ def generate_launch_description():
         ],
     )
 
-    robot_controller_spawner = Node(
+    trajectory_controller_spawner = Node(
         package="controller_manager",
         executable="spawner.py",
-        arguments=[robot_controller, "-c", "/controller_manager"],
+        arguments=["scaled_joint_trajectory_controller", "-c", "/controller_manager"],
+    )
+
+    forward_position_controller_spawner_stopped = Node(
+        package="controller_manager",
+        executable="spawner.py",
+        arguments=["forward_position_controller", "-c", "/controller_manager", "--stopped"],
     )
 
     nodes_to_start = [
@@ -326,7 +332,8 @@ def generate_launch_description():
         io_and_status_controller_spawner,
         speed_scaling_state_broadcaster_spawner,
         force_torque_sensor_broadcaster_spawner,
-        robot_controller_spawner,
+        trajectory_controller_spawner,
+        forward_position_controller_spawner_stopped,
     ]
 
     return LaunchDescription(declared_arguments + nodes_to_start)
