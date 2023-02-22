@@ -381,6 +381,8 @@ return_type URPositionHardwareInterface::start()
                                                                            "for details.");
   }
 
+  ur_driver_->setKeepaliveCount(5);
+
   ur_driver_->startRTDECommunication();
 
   async_thread_ = std::make_shared<std::thread>(&URPositionHardwareInterface::asyncThread, this);
